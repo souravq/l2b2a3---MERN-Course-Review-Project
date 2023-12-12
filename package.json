@@ -1,0 +1,28 @@
+{
+  "name": "l2b2a3-course-review-souravq",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./dist/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Porgramming-Hero-web-course/l2b2a3-course-review-souravq.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Porgramming-Hero-web-course/l2b2a3-course-review-souravq/issues"
+  },
+  "homepage": "https://github.com/Porgramming-Hero-web-course/l2b2a3-course-review-souravq#readme",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
