@@ -41,7 +41,7 @@ const createCourse = async (req: Request, res: Response) => {
         details: result.details,
       };
       res.status(200).json({
-        success: "true",
+        success: true,
         statusCode: 201,
         message: "Course created successfully",
         data: resultData,
