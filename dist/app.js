@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const course_route_1 = __importDefault(require("./modules/course/course.route"));
 const category_route_1 = require("./modules/category/category.route");
+const review_route_1 = require("./modules/review/review.route");
 const app = (0, express_1.default)();
 // Middleware
 app.use(express_1.default.json());
@@ -16,4 +17,6 @@ app.get("/", (req, res) => {
 app.use("/api/course", course_route_1.default);
 // Category
 app.use("/api/categories", category_route_1.CategoryRouter.router);
+// Review
+app.use("/api/reviews", review_route_1.reviewRouter.router);
 exports.default = app;
