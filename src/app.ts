@@ -1,2 +1,5 @@
-console.log("Hello World !!!");
-console.log("Hello Worlddddd !!!");
+import express, { Application } from "express";
+
+const app: Application = express();
+
+export default app;
