@@ -17,6 +17,6 @@ app.use("/api/course", router);
 
 // Category
 
-app.use("/api/category", CategoryRouter.router);
+app.use("/api/categories", CategoryRouter.router);
 
 export default app;

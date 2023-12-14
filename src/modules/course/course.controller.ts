@@ -40,7 +40,7 @@ const createCourse = async (req: Request, res: Response) => {
         durationInWeeks: week, // calculated from the start and end dates
         details: result.details,
       };
-      res.status(200).json({
+      res.status(201).json({
         success: true,
         statusCode: 201,
         message: "Course created successfully",

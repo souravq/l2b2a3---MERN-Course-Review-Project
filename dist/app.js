@@ -15,5 +15,5 @@ app.get("/", (req, res) => {
 // Course
 app.use("/api/course", course_route_1.default);
 // Category
-app.use("/api/category", category_route_1.CategoryRouter.router);
+app.use("/api/categories", category_route_1.CategoryRouter.router);
 exports.default = app;
