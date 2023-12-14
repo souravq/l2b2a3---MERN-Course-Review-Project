@@ -18,7 +18,6 @@ const CourseSchema = new Schema<TCourse>({
   endDate: { type: String },
   language: { type: String },
   provider: { type: String },
-  durationInWeeks: { type: Number },
   details: {
     level: {
       type: String,
@@ -32,4 +31,4 @@ const CourseSchema = new Schema<TCourse>({
 
 // 3. Create a Model.
 
-const Course = model<TCourse>("Course", CourseSchema);
+export const Course = model<TCourse>("Course", CourseSchema);
