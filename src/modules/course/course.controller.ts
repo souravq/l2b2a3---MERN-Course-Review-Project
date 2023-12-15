@@ -1,9 +1,13 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { CourseService } from "./course.service";
 import calculateDurationInWeeks from "../../utils/durationInWeeks";
 import { CourseResponse } from "../../types/course.types";
 
-const createCourse = async (req: Request, res: Response) => {
+const createCourse = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     // Getting Body Data
     const courseData = req.body;
@@ -48,7 +52,7 @@ const createCourse = async (req: Request, res: Response) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };
 

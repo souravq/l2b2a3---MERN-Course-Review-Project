@@ -2,11 +2,11 @@ import express, { Application, Request, Response } from "express";
 import router from "./modules/course/course.route";
 import { CategoryRouter } from "./modules/category/category.route";
 import { reviewRouter } from "./modules/review/review.route";
+import globalErrorHandler from "./middlewares/globalErrorHandler";
 
 const app: Application = express();
 
 // Middleware
-
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
@@ -23,5 +23,8 @@ app.use("/api/categories", CategoryRouter.router);
 // Review
 
 app.use("/api/reviews", reviewRouter.router);
+
+// Middleware - Error Handler
+app.use(globalErrorHandler);
 
 export default app;

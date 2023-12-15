@@ -8,7 +8,7 @@ const createCourseIntoDB = async (courseData: TCourse) => {
     const newCourse = await Course.create(courseData);
     return newCourse;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 };
 

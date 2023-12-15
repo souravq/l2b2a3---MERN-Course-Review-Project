@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const course_route_1 = __importDefault(require("./modules/course/course.route"));
 const category_route_1 = require("./modules/category/category.route");
 const review_route_1 = require("./modules/review/review.route");
+const globalErrorHandler_1 = __importDefault(require("./middlewares/globalErrorHandler"));
 const app = (0, express_1.default)();
 // Middleware
 app.use(express_1.default.json());
@@ -19,4 +20,6 @@ app.use("/api/course", course_route_1.default);
 app.use("/api/categories", category_route_1.CategoryRouter.router);
 // Review
 app.use("/api/reviews", review_route_1.reviewRouter.router);
+// Middleware - Error Handler
+app.use(globalErrorHandler_1.default);
 exports.default = app;
