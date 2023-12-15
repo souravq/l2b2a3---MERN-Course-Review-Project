@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { CategoryService } from "./category.service";
 import { TCategory } from "./category.interface";
 import categoryValidationSchema from "./category.validation";
+import sendResponse from "../../utils/sendResponse";
+import httpStatus from "http-status";
 
 // Create Category
 const createCategory = async (
@@ -20,10 +22,10 @@ const createCategory = async (
       validateCategoryData
     );
     if (result) {
-      res.status(201).json({
+      sendResponse(res, {
         success: true,
-        statusCode: 201,
-        message: "Category created successfully",
+        statusCode: httpStatus.CREATED,
+        message: "Course created successfully",
         data: {
           _id: result._id,
           name: result.name,
@@ -45,10 +47,10 @@ const getAllCategory = async (
   try {
     const result = await CategoryService.getAllCategory();
     if (result) {
-      res.status(200).json({
+      sendResponse(res, {
         success: true,
-        statusCode: 200,
-        message: "Categories retrieved successfully",
+        statusCode: httpStatus.OK,
+        message: "Course created successfully",
         data: result.map((data) => {
           return {
             _id: data._id,

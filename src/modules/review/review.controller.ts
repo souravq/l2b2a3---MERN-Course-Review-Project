@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { reviewService } from "./review.services";
 import reviewValidationSchema from "./review.validation";
+import sendResponse from "../../utils/sendResponse";
+import httpStatus from "http-status";
 
 const createReview = async (
   req: Request,
@@ -15,10 +17,10 @@ const createReview = async (
     // Call Review Service
     const result = await reviewService.createReviewIntoDB(reviewData);
     if (result) {
-      res.status(201).json({
+      sendResponse(res, {
         success: true,
-        statusCode: 201,
-        message: "Review created successfully",
+        statusCode: httpStatus.CREATED,
+        message: "Course created successfully",
         data: {
           _id: result._id,
           courseId: result.courseId,

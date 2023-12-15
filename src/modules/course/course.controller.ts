@@ -3,6 +3,8 @@ import { CourseService } from "./course.service";
 import calculateDurationInWeeks from "../../utils/durationInWeeks";
 import { CourseResponse } from "../../types/course.types";
 import CourseValidationSchema from "./course.validation";
+import sendResponse from "../../utils/sendResponse";
+import httpStatus from "http-status";
 
 const createCourse = async (
   req: Request,
@@ -47,9 +49,10 @@ const createCourse = async (
         durationInWeeks: week, // calculated from the start and end dates
         details: result.details,
       };
-      res.status(201).json({
+
+      sendResponse(res, {
         success: true,
-        statusCode: 201,
+        statusCode: httpStatus.CREATED,
         message: "Course created successfully",
         data: resultData,
       });
