@@ -1,9 +1,10 @@
 import express, { Application, Request, Response } from "express";
-import router from "./modules/course/course.route";
-import { CategoryRouter } from "./modules/category/category.route";
-import { reviewRouter } from "./modules/review/review.route";
+//import router, { courseRouter } from "./modules/course/course.route";
+//import { CategoryRouter } from "./modules/category/category.route";
+//import { reviewRouter } from "./modules/review/review.route";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
 import notFound from "./middlewares/notFound";
+import router from "./routes";
 
 const app: Application = express();
 
@@ -15,15 +16,15 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // Course
-app.use("/api/course", router);
+app.use("/api", router);
 
 // Category
 
-app.use("/api/categories", CategoryRouter.router);
+// app.use("/api", CategoryRouter.router);
 
-// Review
+// // Review
 
-app.use("/api/reviews", reviewRouter.router);
+// app.use("/api", reviewRouter.router);
 
 // Middleware - Error Handler
 app.use(globalErrorHandler);

@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.post("/", CourseController.createCourse);
 
-export default router;
+export const courseRouter = {
+  router,
+};
