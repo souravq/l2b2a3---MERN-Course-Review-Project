@@ -8,7 +8,7 @@ const createReviewIntoDB = async (reviewData: TReview) => {
     const result = await Review.create(reviewData);
     return result;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 };
 

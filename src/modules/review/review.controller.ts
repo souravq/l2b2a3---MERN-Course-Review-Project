@@ -1,10 +1,18 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { reviewService } from "./review.services";
+import reviewValidationSchema from "./review.validation";
 
-const createReview = async (req: Request, res: Response) => {
+const createReview = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     // Get review Data
     const reviewData = req.body;
+    // Apply ZOD validation
+    const validateData = await reviewValidationSchema.parse(reviewData);
+    // Call Review Service
     const result = await reviewService.createReviewIntoDB(reviewData);
     if (result) {
       res.status(201).json({
@@ -20,7 +28,7 @@ const createReview = async (req: Request, res: Response) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };
 
