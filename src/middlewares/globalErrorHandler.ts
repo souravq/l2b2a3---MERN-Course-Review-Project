@@ -9,9 +9,6 @@ const globalErrorHandler = (
   const success = false;
   const message = err.message || "Something went wrong!!!";
 
-  console.log("Enter 3");
-  console.log(err);
-
   return res.status(500).json({
     success,
     message,
