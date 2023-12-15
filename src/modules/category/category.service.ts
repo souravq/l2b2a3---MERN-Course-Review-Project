@@ -4,10 +4,11 @@ import { Category } from "./category.model";
 // Create Category
 const createCategoryIntoDB = async (categoryData: TCategory) => {
   try {
+    console.log(categoryData);
     const result = await Category.create(categoryData);
     return result;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 };
 
@@ -17,7 +18,7 @@ const getAllCategory = async () => {
     const result = await Category.find({});
     return result;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 };
 

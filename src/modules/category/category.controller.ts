@@ -1,9 +1,13 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { CategoryService } from "./category.service";
 import { TCategory } from "./category.interface";
 
 // Create Category
-const createCategory = async (req: Request, res: Response) => {
+const createCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     // Get Category data
     const categoryData: TCategory = req.body;
@@ -20,13 +24,17 @@ const createCategory = async (req: Request, res: Response) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };
 
 // Get All category
 
-const getAllCategory = async (req: Request, res: Response) => {
+const getAllCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const result = await CategoryService.getAllCategory();
     if (result) {
@@ -43,7 +51,7 @@ const getAllCategory = async (req: Request, res: Response) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };
 
