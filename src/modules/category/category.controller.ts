@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { CategoryService } from "./category.service";
 import { TCategory } from "./category.interface";
+import categoryValidationSchema from "./category.validation";
 
 // Create Category
 const createCategory = async (
@@ -11,7 +12,13 @@ const createCategory = async (
   try {
     // Get Category data
     const categoryData: TCategory = req.body;
-    const result = await CategoryService.createCategoryIntoDB(categoryData);
+    // Apply Zod Validation
+    const validateCategoryData = await categoryValidationSchema.parse(
+      categoryData
+    );
+    const result = await CategoryService.createCategoryIntoDB(
+      validateCategoryData
+    );
     if (result) {
       res.status(201).json({
         success: true,
