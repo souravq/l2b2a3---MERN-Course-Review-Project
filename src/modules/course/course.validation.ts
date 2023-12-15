@@ -10,10 +10,6 @@ const TagValidationSchema = z.object({
 const CourseValidationSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   instructor: z.string().optional(),
-  categoryId: z
-    .string()
-    .uuid({ message: "Invalid Category ID" })
-    .min(1, { message: "Category ID is required" }),
   price: z
     .number()
     .min(0, { message: "Price must be greater than or equal to 0" })

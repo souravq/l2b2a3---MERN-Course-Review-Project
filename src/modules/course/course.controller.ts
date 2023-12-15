@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { CourseService } from "./course.service";
 import calculateDurationInWeeks from "../../utils/durationInWeeks";
 import { CourseResponse } from "../../types/course.types";
+import CourseValidationSchema from "./course.validation";
 
 const createCourse = async (
   req: Request,
@@ -11,6 +12,8 @@ const createCourse = async (
   try {
     // Getting Body Data
     const courseData = req.body;
+    // Apply Zod Validation
+    const validateCourseData = await CourseValidationSchema.parse(courseData);
     // Call Service function
     const result = await CourseService.createCourseIntoDB(courseData);
 
