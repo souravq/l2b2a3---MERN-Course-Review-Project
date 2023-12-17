@@ -1,28 +1,32 @@
-import express from "express";
-import { courseRouter } from "../modules/course/course.route";
-import { categoryRouter } from "../modules/category/category.route";
-import { reviewRouter } from "../modules/review/review.route";
-const router = express.Router();
+import express from 'express'
+import { courseRouter } from '../modules/course/course.route'
+import { categoryRouter } from '../modules/category/category.route'
+import { reviewRouter } from '../modules/review/review.route'
+const router = express.Router()
 
 const routeObj = [
   {
-    path: "/course",
+    path: '/course',
     route: courseRouter.router,
   },
   {
-    path: "/categories",
+    path: '/courses',
+    route: courseRouter.updateRouter,
+  },
+  {
+    path: '/categories',
     route: categoryRouter.router,
   },
   {
-    path: "/reviews",
+    path: '/reviews',
     route: reviewRouter.router,
   },
-];
+]
 
-routeObj.forEach((routeData) => router.use(routeData.path, routeData.route));
+routeObj.forEach((routeData) => router.use(routeData.path, routeData.route))
 
 // router.use("/course", courseRouter.router);
 // router.use("/categories", categoryRouter.router);
 // router.use("/reviews", reviewRouter.router);
 
-export default router;
+export default router

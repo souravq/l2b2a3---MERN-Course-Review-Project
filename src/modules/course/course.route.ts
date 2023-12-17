@@ -1,10 +1,15 @@
-import express from "express";
-import { CourseController } from "./course.controller";
+import express from 'express'
+import { CourseController } from './course.controller'
 
-const router = express.Router();
+const router = express.Router()
 
-router.post("/", CourseController.createCourse);
+const updateRouter = express.Router()
+
+router.post('/', CourseController.createCourse)
+
+updateRouter.put('/:courseId', CourseController.updateCourse)
 
 export const courseRouter = {
   router,
-};
+  updateRouter,
+}
