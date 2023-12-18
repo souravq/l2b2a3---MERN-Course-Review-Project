@@ -7,6 +7,8 @@ const updateRouter = express.Router()
 
 router.post('/', CourseController.createCourse)
 
+router.get('/best', CourseController.getBestCourse)
+
 updateRouter.put('/:courseId', CourseController.updateCourse)
 
 updateRouter.get('/:courseId/reviews', CourseController.getCourseByIdWithReview)

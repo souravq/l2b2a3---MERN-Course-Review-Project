@@ -108,8 +108,30 @@ const getCourseByIdWithReview = async (
   }
 }
 
+// Get Best Course
+
+const getBestCourse = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const result = await CourseService.getBestCourse()
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: 'Best course retrieved successfully',
+      data: result,
+    })
+  } catch (err) {
+    console.log(err)
+    next(err)
+  }
+}
+
 export const CourseController = {
   createCourse,
   updateCourse,
   getCourseByIdWithReview,
+  getBestCourse,
 }
