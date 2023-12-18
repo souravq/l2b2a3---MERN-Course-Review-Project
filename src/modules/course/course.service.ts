@@ -1,8 +1,7 @@
 import { ObjectId } from 'mongodb'
-// Create Course
-
 import { TCourse } from './course.interface'
 import { Course } from './course.model'
+import { Review } from '../review/review.model'
 
 // Create Course
 const createCourseIntoDB = async (courseData: TCourse) => {
@@ -39,7 +38,36 @@ const updateCourseIntoDB = async (courseId: string, courseData: TCourse) => {
   }
 }
 
+//Get Course by ID with Reviews
+
+const getCourseByIdWithReview = async (courseId: string) => {
+  try {
+    // Get Course Data
+    const couseResult = await Course.findById({
+      _id: new ObjectId(courseId),
+    })
+
+    if (!couseResult) {
+      throw new Error('Course not found')
+    }
+
+    // Get Review Data
+    const reviewResult = await Review.find({ courseId })
+
+    // Merge two result
+    const result = {
+      course: couseResult,
+      reviews: reviewResult,
+    }
+    return result
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
+}
+
 export const CourseService = {
   createCourseIntoDB,
   updateCourseIntoDB,
+  getCourseByIdWithReview,
 }

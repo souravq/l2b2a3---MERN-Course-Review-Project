@@ -9,6 +9,8 @@ router.post('/', CourseController.createCourse)
 
 updateRouter.put('/:courseId', CourseController.updateCourse)
 
+updateRouter.get('/:courseId/reviews', CourseController.getCourseByIdWithReview)
+
 export const courseRouter = {
   router,
   updateRouter,
