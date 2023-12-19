@@ -16,14 +16,15 @@ const createCourse = async (
     const courseData = req.body
     // Apply Zod Validation
     //const validateCourseData = await CourseValidationSchema.parse(courseData)
+
+    // Calculate Duration In Week
+    const week = calculateDurationInWeeks(req.body.startDate, req.body.endDate)
+    courseData['durationInWeeks'] = week
+
     // Call Service function
     const result = await CourseService.createCourseIntoDB(courseData)
 
     if (result) {
-      // Calculate Duration In Week
-      const week =
-        result && calculateDurationInWeeks(result.startDate, result.endDate)
-
       // Get expected tags
       const newTags =
         result &&
