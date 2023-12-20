@@ -33,13 +33,9 @@ const courseSearchAndFilter = async (queryData: Record<string, unknown>) => {
       'endDate',
       'level',
       'durationInWeeks',
+      'tags',
     ]
     excludeFields.forEach((data) => delete queryObject[data])
-
-    // If tag available
-    if (typeof queryObject.tags === 'string') {
-      queryObject.tags = new RegExp(queryObject.tags, 'i')
-    }
 
     // If language available
     if (typeof queryObject.language === 'string') {
@@ -51,6 +47,7 @@ const courseSearchAndFilter = async (queryData: Record<string, unknown>) => {
       queryObject.provider = new RegExp(queryObject.provider, 'i')
     }
 
+    // Build query
     let query = Course.find({ ...queryObject })
 
     // If level available
@@ -79,6 +76,15 @@ const courseSearchAndFilter = async (queryData: Record<string, unknown>) => {
     if (queryData.minPrice && queryData.maxPrice) {
       query = query.find({
         price: { $gte: queryData.minPrice, $lte: queryData.maxPrice },
+      })
+    }
+
+    // If tag available
+    if (queryData.tags) {
+      query = query.find({
+        tags: {
+          $elemMatch: { name: queryData.tags },
+        },
       })
     }
 
