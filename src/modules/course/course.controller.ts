@@ -6,6 +6,7 @@ import { CourseResponse } from '../../types/course.types'
 import sendResponse from '../../utils/sendResponse'
 import httpStatus from 'http-status'
 
+// Create Course
 const createCourse = async (
   req: Request,
   res: Response,
@@ -59,6 +60,28 @@ const createCourse = async (
       })
     }
   } catch (err) {
+    next(err)
+  }
+}
+
+// Course Search And Filter
+
+const courseSearchAndFilter = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const searchData = { ...req.query }
+    const result = await CourseService.courseSearchAndFilter(searchData)
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: 'Courses retrieved successfully',
+      data: result,
+    })
+  } catch (err) {
+    console.log(err)
     next(err)
   }
 }
@@ -132,6 +155,7 @@ const getBestCourse = async (
 
 export const CourseController = {
   createCourse,
+  courseSearchAndFilter,
   updateCourse,
   getCourseByIdWithReview,
   getBestCourse,

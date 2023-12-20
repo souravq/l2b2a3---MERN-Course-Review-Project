@@ -14,33 +14,43 @@ const TagSchema = new Schema<TTag>({
   },
 })
 
-const CourseSchema = new Schema<TCourse>({
-  title: { type: String, required: [true, 'Title is required'], unique: true },
-  instructor: { type: String },
-  categoryId: {
-    type: Schema.Types.ObjectId,
-    required: [true, 'Category ID is required'],
-  },
-  price: { type: Number, min: [0, 'Price must be greater than or equal to 0'] },
-  tags: { type: [TagSchema] },
-  startDate: { type: String, required: [true, 'Start date is required'] },
-  endDate: { type: String, required: [true, 'End date is required'] },
-  language: { type: String },
-  provider: { type: String },
-  durationInWeeks: { type: Number },
-  details: {
-    level: {
+const CourseSchema = new Schema<TCourse>(
+  {
+    title: {
       type: String,
-      enum: {
-        values: ['Beginner', 'Intermediate', 'Advanced'],
-        message:
-          'Invalid level. Must be one of: Beginner, Intermediate, Advanced',
-      },
-      required: [true, 'Level is required'],
+      required: [true, 'Title is required'],
+      unique: true,
     },
-    description: { type: String },
+    instructor: { type: String },
+    categoryId: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'Category ID is required'],
+    },
+    price: {
+      type: Number,
+      min: [0, 'Price must be greater than or equal to 0'],
+    },
+    tags: { type: [TagSchema] },
+    startDate: { type: String, required: [true, 'Start date is required'] },
+    endDate: { type: String, required: [true, 'End date is required'] },
+    language: { type: String },
+    provider: { type: String },
+    durationInWeeks: { type: Number },
+    details: {
+      level: {
+        type: String,
+        enum: {
+          values: ['Beginner', 'Intermediate', 'Advanced'],
+          message:
+            'Invalid level. Must be one of: Beginner, Intermediate, Advanced',
+        },
+        required: [true, 'Level is required'],
+      },
+      description: { type: String },
+    },
   },
-})
+  { timestamps: true },
+)
 
 // Update Course Schema
 
