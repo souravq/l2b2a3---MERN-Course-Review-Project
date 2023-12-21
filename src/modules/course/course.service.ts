@@ -171,6 +171,18 @@ const updateCourseIntoDB = async (courseId: string, courseData: TCourse) => {
       modifiedData['durationInWeeks'] = week
     }
 
+    if (
+      !(
+        modifiedData.durationInWeeks &&
+        typeof modifiedData.startDate === 'string' &&
+        typeof modifiedData.endDate === 'string'
+      )
+    ) {
+      throw new Error(
+        "DurationInWeeks can't be update without start date and end date",
+      )
+    }
+
     if (details && Object.keys(details).length > 0) {
       for (const [keys, value] of Object.entries(details)) {
         modifiedData[`details.${keys}`] = value
