@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextFunction, Request, Response } from 'express'
 import { CourseService } from './course.service'
 import calculateDurationInWeeks from '../../utils/durationInWeeks'
 import { CourseResponse } from '../../types/course.types'
-//import CourseValidationSchema from './course.validation'
+import CourseValidationSchema from './course.validation'
 import sendResponse from '../../utils/sendResponse'
 import httpStatus from 'http-status'
+import { TCourse } from './course.interface'
 
 // Create Course
 const createCourse = async (
@@ -14,13 +16,13 @@ const createCourse = async (
 ) => {
   try {
     // Getting Body Data
-    const courseData = req.body
+    const courseData: TCourse = { ...req.body }
     // Apply Zod Validation
-    //const validateCourseData = await CourseValidationSchema.parse(courseData)
+    const validateCourseData = await CourseValidationSchema.parse(courseData)
 
     // Calculate Duration In Week
     let week = 0
-    if (courseData.startDate && courseData.endData) {
+    if (courseData.startDate && courseData.endDate) {
       week = calculateDurationInWeeks(courseData.startDate, courseData.endDate)
       courseData['durationInWeeks'] = week
     }
@@ -51,7 +53,7 @@ const createCourse = async (
         endDate: result.endDate,
         language: result.language,
         provider: result.provider,
-        durationInWeeks: week, // calculated from the start and end dates
+        durationInWeeks: result.durationInWeeks,
         details: result.details,
       }
 
