@@ -31,7 +31,7 @@ const createReview = async (
       })
     }
   } catch (err) {
-    console.log(err)
+    //console.log(err)
     next(err)
   }
 }

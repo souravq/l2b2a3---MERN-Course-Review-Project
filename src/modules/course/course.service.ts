@@ -5,11 +5,17 @@ import { Review } from '../review/review.model'
 import { updatedTags } from '../../utils/updatedTags'
 import { CourseResponse } from '../../types/course.types'
 import calculateDurationInWeeks from '../../utils/durationInWeeks'
+import { Category } from '../category/category.model'
 
 // Create Course
 const createCourseIntoDB = async (courseData: TCourse) => {
   // eslint-disable-next-line no-useless-catch
   try {
+    // Check Category Id exist or not
+    const existingCategory = await Category.findById(courseData.categoryId)
+    if (!existingCategory) {
+      throw new Error('Category not found')
+    }
     const newCourse = await Course.create(courseData)
     return newCourse
   } catch (err) {
@@ -157,6 +163,7 @@ const updateCourseIntoDB = async (courseId: string, courseData: TCourse) => {
     const { tags, details, ...remainingField } = courseData
 
     const modifiedData: Record<string, unknown> = { ...remainingField }
+    console.log(modifiedData)
 
     // Calculate Duration In Week
     let week = 0
@@ -171,16 +178,36 @@ const updateCourseIntoDB = async (courseId: string, courseData: TCourse) => {
       modifiedData['durationInWeeks'] = week
     }
 
+    // Check if durationInWeeks data without start date and end date
     if (
+      modifiedData?.durationInWeeks &&
       !(
-        modifiedData.durationInWeeks &&
-        typeof modifiedData.startDate === 'string' &&
-        typeof modifiedData.endDate === 'string'
+        typeof modifiedData?.startDate === 'string' &&
+        typeof modifiedData?.endDate === 'string'
       )
     ) {
       throw new Error(
         "DurationInWeeks can't be update without start date and end date",
       )
+    }
+
+    // Start date and End date both checked
+    if (typeof modifiedData?.startDate === 'string') {
+      if (!(typeof modifiedData?.endDate === 'string'))
+        throw new Error("Start date can't be update without end date")
+    }
+
+    if (typeof modifiedData?.endDate === 'string') {
+      if (!(typeof modifiedData?.startDate === 'string'))
+        throw new Error("End date can't be update without start date")
+    }
+
+    // Check Category Id exist or not
+    if (modifiedData.categoryId) {
+      const existingCategory = await Category.findById(modifiedData.categoryId)
+      if (!existingCategory) {
+        throw new Error('Category not found')
+      }
     }
 
     if (details && Object.keys(details).length > 0) {
