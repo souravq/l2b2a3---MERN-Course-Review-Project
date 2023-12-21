@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 const reviewValidationSchema = z.object({
   rating: z.number({
-    required_error: 'rating is required',
+    required_error: 'Rating is required',
   }),
   review: z.string({
     required_error: 'Review is required',
