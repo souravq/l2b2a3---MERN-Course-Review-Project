@@ -1,8 +1,9 @@
 import { ObjectId } from 'mongodb'
-import { TCourse } from './course.interface'
+import { TCourse, TTag } from './course.interface'
 import { Course } from './course.model'
 import { Review } from '../review/review.model'
 import { updatedTags } from '../../utils/updatedTags'
+import { CourseResponse } from '../../types/course.types'
 
 // Create Course
 const createCourseIntoDB = async (courseData: TCourse) => {
@@ -156,33 +157,36 @@ const updateCourseIntoDB = async (courseId: string, courseData: TCourse) => {
       { new: true, runValidators: true },
     )
 
+    // For Course Tags
     if (tags) {
       let backupTags = [...tags]
-      console.log('Backup1', backupTags)
       const existingTags = result?.tags
-      console.log('Exist', existingTags)
+
+      // Update existing tags
       tags.forEach(async (data1) => {
         existingTags?.forEach(async (data2) => {
           if (data1.name == data2.name) {
-            console.log(data2)
-
-            const data = await Course.findOneAndUpdate(
+            await Course.findOneAndUpdate(
               { _id: new ObjectId(courseId), 'tags.name': data1.name },
               { $set: { 'tags.$.isDeleted': data1.isDeleted } },
               {
                 new: true,
               },
             )
-            if (data) {
-              backupTags = backupTags.filter(
-                (data3) => data3.name !== data1.name,
-              )
-              console.log('Filter', backupTags)
-            }
           }
         })
       })
-      console.log('backupTags2', backupTags)
+
+      // Filter existing tags
+      tags.forEach(async (data1) => {
+        existingTags?.forEach(async (data2) => {
+          if (data1.name == data2.name) {
+            backupTags = backupTags.filter((data3) => data3.name !== data1.name)
+          }
+        })
+      })
+
+      // Add new tags
       result = await Course.findOneAndUpdate(
         { _id: new ObjectId(courseId) },
         {
@@ -194,7 +198,41 @@ const updateCourseIntoDB = async (courseId: string, courseData: TCourse) => {
       )
     }
 
-    return result
+    // Get expected tags
+    const newTags =
+      result &&
+      result.tags.map((data) => {
+        if (data.isDeleted === false) {
+          return {
+            name: data.name,
+            isDeleted: data.isDeleted,
+          }
+        }
+      })
+
+    const filteredTags = newTags?.filter(function (el) {
+      return el != null
+    })
+
+    // Updated Expected Response
+    const expectedResult: CourseResponse = {
+      title: result?.title as string,
+      instructor: result?.instructor as string,
+      categoryId: result?.categoryId as ObjectId,
+      price: result?.price as number,
+      tags: filteredTags as TTag[],
+      startDate: result?.startDate as string,
+      endDate: result?.endDate as string,
+      language: result?.language as string,
+      provider: result?.provider as string,
+      durationInWeeks: result?.durationInWeeks as number,
+      details: result?.details as {
+        level: 'Beginner' | 'Intermediate' | 'Advanced'
+        description: string
+      },
+    }
+
+    return expectedResult
   } catch (err) {
     throw err
   }
