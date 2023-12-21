@@ -4,6 +4,7 @@ import { Course } from './course.model'
 import { Review } from '../review/review.model'
 import { updatedTags } from '../../utils/updatedTags'
 import { CourseResponse } from '../../types/course.types'
+import calculateDurationInWeeks from '../../utils/durationInWeeks'
 
 // Create Course
 const createCourseIntoDB = async (courseData: TCourse) => {
@@ -131,7 +132,19 @@ const courseSearchAndFilter = async (queryData: Record<string, unknown>) => {
     query = query.skip(skip).limit(limit)
 
     const result = await query.exec()
-    return result
+    console.log(result.length)
+    const total = result.length
+
+    const metaData = {
+      page,
+      limit,
+      total,
+    }
+
+    return {
+      result,
+      metaData,
+    }
   } catch (err) {
     console.log(err)
   }
@@ -144,6 +157,19 @@ const updateCourseIntoDB = async (courseId: string, courseData: TCourse) => {
     const { tags, details, ...remainingField } = courseData
 
     const modifiedData: Record<string, unknown> = { ...remainingField }
+
+    // Calculate Duration In Week
+    let week = 0
+    if (
+      typeof modifiedData.startDate === 'string' &&
+      typeof modifiedData.endDate === 'string'
+    ) {
+      week = calculateDurationInWeeks(
+        modifiedData.startDate,
+        modifiedData.endDate,
+      )
+      modifiedData['durationInWeeks'] = week
+    }
 
     if (details && Object.keys(details).length > 0) {
       for (const [keys, value] of Object.entries(details)) {

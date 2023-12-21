@@ -78,12 +78,19 @@ const courseSearchAndFilter = async (
 ) => {
   try {
     const searchData = { ...req.query }
-    const result = await CourseService.courseSearchAndFilter(searchData)
-    sendResponse(res, {
+    const resultData = await CourseService.courseSearchAndFilter(searchData)
+    // sendResponse(res, {
+    //   success: true,
+    //   statusCode: httpStatus.OK,
+    //   message: 'Courses retrieved successfully',
+    //   data: resultData?.result,
+    // })
+    res.status(httpStatus.OK).json({
       success: true,
       statusCode: httpStatus.OK,
       message: 'Courses retrieved successfully',
-      data: result,
+      meta: resultData?.metaData,
+      data: resultData?.result,
     })
   } catch (err) {
     console.log(err)
