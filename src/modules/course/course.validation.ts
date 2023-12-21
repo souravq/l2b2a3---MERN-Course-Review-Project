@@ -22,7 +22,7 @@ const CourseValidationSchema = z.object({
   endDate: z.string().min(1, { message: 'End date is required' }),
   language: z.string({ required_error: 'Language is required' }),
   provider: z.string({ required_error: 'Provider is required' }),
-  durationInWeeks: z.number(),
+  durationInWeeks: z.number().optional(),
   details: z.object({
     level: z.enum(['Beginner', 'Intermediate', 'Advanced']),
     description: z.string({
