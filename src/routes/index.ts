@@ -25,8 +25,4 @@ const routeObj = [
 
 routeObj.forEach((routeData) => router.use(routeData.path, routeData.route))
 
-// router.use("/course", courseRouter.router);
-// router.use("/categories", categoryRouter.router);
-// router.use("/reviews", reviewRouter.router);
-
 export default router
