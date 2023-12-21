@@ -140,7 +140,7 @@ const courseSearchAndFilter = async (queryData: Record<string, unknown>) => {
 const updateCourseIntoDB = async (courseId: string, courseData: TCourse) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const { details, ...remainingField } = courseData
+    const { tags, details, ...remainingField } = courseData
 
     const modifiedData: Record<string, unknown> = { ...remainingField }
 
@@ -149,11 +149,51 @@ const updateCourseIntoDB = async (courseId: string, courseData: TCourse) => {
         modifiedData[`details.${keys}`] = value
       }
     }
-    const result = await Course.findOneAndUpdate(
+
+    let result = await Course.findOneAndUpdate(
       { _id: new ObjectId(courseId) },
       { $set: modifiedData },
       { new: true, runValidators: true },
     )
+
+    if (tags) {
+      let backupTags = [...tags]
+      console.log('Backup1', backupTags)
+      const existingTags = result?.tags
+      console.log('Exist', existingTags)
+      tags.forEach(async (data1) => {
+        existingTags?.forEach(async (data2) => {
+          if (data1.name == data2.name) {
+            console.log(data2)
+
+            const data = await Course.findOneAndUpdate(
+              { _id: new ObjectId(courseId), 'tags.name': data1.name },
+              { $set: { 'tags.$.isDeleted': data1.isDeleted } },
+              {
+                new: true,
+              },
+            )
+            if (data) {
+              backupTags = backupTags.filter(
+                (data3) => data3.name !== data1.name,
+              )
+              console.log('Filter', backupTags)
+            }
+          }
+        })
+      })
+      console.log('backupTags2', backupTags)
+      result = await Course.findOneAndUpdate(
+        { _id: new ObjectId(courseId) },
+        {
+          $push: { tags: backupTags },
+        },
+        {
+          new: true,
+        },
+      )
+    }
+
     return result
   } catch (err) {
     throw err
