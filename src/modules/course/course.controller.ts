@@ -19,8 +19,11 @@ const createCourse = async (
     //const validateCourseData = await CourseValidationSchema.parse(courseData)
 
     // Calculate Duration In Week
-    const week = calculateDurationInWeeks(req.body.startDate, req.body.endDate)
-    courseData['durationInWeeks'] = week
+    let week = 0
+    if (courseData.startDate && courseData.endData) {
+      week = calculateDurationInWeeks(courseData.startDate, courseData.endDate)
+      courseData['durationInWeeks'] = week
+    }
 
     // Call Service function
     const result = await CourseService.createCourseIntoDB(courseData)
