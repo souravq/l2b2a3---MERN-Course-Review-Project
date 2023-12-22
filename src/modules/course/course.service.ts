@@ -170,7 +170,6 @@ const updateCourseIntoDB = async (courseId: string, courseData: TCourse) => {
     const { tags, details, ...remainingField } = courseData
 
     const modifiedData: Record<string, unknown> = { ...remainingField }
-    console.log(modifiedData)
 
     // Calculate Duration In Week
     let week = 0

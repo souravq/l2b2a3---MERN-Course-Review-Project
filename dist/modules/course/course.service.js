@@ -176,7 +176,6 @@ const updateCourseIntoDB = (courseId, courseData) => __awaiter(void 0, void 0, v
         }
         const { tags, details } = courseData, remainingField = __rest(courseData, ["tags", "details"]);
         const modifiedData = Object.assign({}, remainingField);
-        console.log(modifiedData);
         // Calculate Duration In Week
         let week = 0;
         if (typeof modifiedData.startDate === 'string' &&
