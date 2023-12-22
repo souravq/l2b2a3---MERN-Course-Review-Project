@@ -8,6 +8,9 @@ const createReviewIntoDB = async (reviewData: TReview) => {
   const { courseId } = reviewData
   // eslint-disable-next-line no-useless-catch
   try {
+    if (!courseId) {
+      throw new Error('Please give courseId')
+    }
     const existingCourse = await Course.findById(courseId)
     if (!existingCourse) {
       throw new Error('Course not found')

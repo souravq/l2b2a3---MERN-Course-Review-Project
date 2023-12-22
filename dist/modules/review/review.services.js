@@ -17,6 +17,9 @@ const createReviewIntoDB = (reviewData) => __awaiter(void 0, void 0, void 0, fun
     const { courseId } = reviewData;
     // eslint-disable-next-line no-useless-catch
     try {
+        if (!courseId) {
+            throw new Error('Please give courseId');
+        }
         const existingCourse = yield course_model_1.Course.findById(courseId);
         if (!existingCourse) {
             throw new Error('Course not found');
