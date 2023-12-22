@@ -2,6 +2,8 @@
 
 ## Deployed Url - https://l2b2a3-course-review-souravq.vercel.app/
 
+## Recorded Video Link - https://drive.google.com/file/d/1FXLuUR9a-_hPoK7jrOEGHgTM4ZHZrM2M/view
+
 ## Description
 
 L2-B2-assignment-3 Course Review is a powerful TypeScript-based web application built with Express and Mongoose for MongoDB interaction. It provides a solid foundation for creating, reading, updating, and deleting course data, category data, review data complete with robust validation and error handling.
