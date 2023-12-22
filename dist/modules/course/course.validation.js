@@ -9,7 +9,7 @@ const TagValidationSchema = zod_1.z.object({
 });
 // Define the Zod schema for TCourse
 const CourseValidationSchema = zod_1.z.object({
-    title: zod_1.z.string().min(1, { message: 'Title is required' }),
+    title: zod_1.z.string({ required_error: 'Title is required' }),
     instructor: zod_1.z.string({ required_error: 'Instructor is required' }),
     categoryId: zod_1.z.string().refine((value) => mongodb_1.ObjectId.isValid(value), {
         message: 'Category ID must be a valid ObjectId',
@@ -18,8 +18,8 @@ const CourseValidationSchema = zod_1.z.object({
         .number()
         .min(0, { message: 'Price must be greater than or equal to 0' }),
     tags: zod_1.z.array(TagValidationSchema),
-    startDate: zod_1.z.string().min(1, { message: 'Start date is required' }),
-    endDate: zod_1.z.string().min(1, { message: 'End date is required' }),
+    startDate: zod_1.z.string({ required_error: 'Start Date is required' }),
+    endDate: zod_1.z.string({ required_error: 'End Date is required' }),
     language: zod_1.z.string({ required_error: 'Language is required' }),
     provider: zod_1.z.string({ required_error: 'Provider is required' }),
     durationInWeeks: zod_1.z.number().optional(),

@@ -9,7 +9,7 @@ const TagValidationSchema = z.object({
 
 // Define the Zod schema for TCourse
 const CourseValidationSchema = z.object({
-  title: z.string().min(1, { message: 'Title is required' }),
+  title: z.string({ required_error: 'Title is required' }),
   instructor: z.string({ required_error: 'Instructor is required' }),
   categoryId: z.string().refine((value) => ObjectId.isValid(value), {
     message: 'Category ID must be a valid ObjectId',
@@ -18,8 +18,8 @@ const CourseValidationSchema = z.object({
     .number()
     .min(0, { message: 'Price must be greater than or equal to 0' }),
   tags: z.array(TagValidationSchema),
-  startDate: z.string().min(1, { message: 'Start date is required' }),
-  endDate: z.string().min(1, { message: 'End date is required' }),
+  startDate: z.string({ required_error: 'Start Date is required' }),
+  endDate: z.string({ required_error: 'End Date is required' }),
   language: z.string({ required_error: 'Language is required' }),
   provider: z.string({ required_error: 'Provider is required' }),
   durationInWeeks: z.number().optional(),
