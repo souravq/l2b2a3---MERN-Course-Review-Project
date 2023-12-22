@@ -21,7 +21,7 @@ const createReview = async (
       sendResponse(res, {
         success: true,
         statusCode: httpStatus.CREATED,
-        message: 'Course created successfully',
+        message: 'Review created successfully',
         data: {
           _id: result._id,
           courseId: result.courseId,

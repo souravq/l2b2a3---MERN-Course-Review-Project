@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import { ObjectId } from 'mongodb'
 import { TCourse, TTag } from './course.interface'
 import { Course } from './course.model'
@@ -138,7 +139,7 @@ const courseSearchAndFilter = async (queryData: Record<string, unknown>) => {
     query = query.skip(skip).limit(limit)
 
     const result = await query.exec()
-    console.log(result.length)
+
     const total = result.length
 
     const metaData = {
@@ -152,7 +153,7 @@ const courseSearchAndFilter = async (queryData: Record<string, unknown>) => {
       metaData,
     }
   } catch (err) {
-    console.log(err)
+    throw err
   }
 }
 
@@ -160,6 +161,12 @@ const courseSearchAndFilter = async (queryData: Record<string, unknown>) => {
 const updateCourseIntoDB = async (courseId: string, courseData: TCourse) => {
   // eslint-disable-next-line no-useless-catch
   try {
+    // Check Course Id exist or not
+    const existingCourse = await Course.findById(courseId)
+    if (!existingCourse) {
+      throw new Error('Course not found')
+    }
+
     const { tags, details, ...remainingField } = courseData
 
     const modifiedData: Record<string, unknown> = { ...remainingField }
@@ -348,7 +355,6 @@ const getCourseByIdWithReview = async (courseId: string) => {
     }
     return result
   } catch (err) {
-    console.log(err)
     throw err
   }
 }
@@ -405,7 +411,6 @@ const getBestCourse = async () => {
     }
     return result
   } catch (err) {
-    console.log(err)
     throw err
   }
 }
