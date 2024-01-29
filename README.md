@@ -41,7 +41,7 @@ Before running the application, ensure you have the following installed:
     
     envCopy code
     
-    `MONGODB_URI=mongodb+srv://souravbera515:LU3p049rSZnBBrVc@cluster0.im7ijnd.mongodb.net/?retryWrites=true&w=majority`
+    `MONGODB_URI=mongodb+srv://*****:*****@cluster0.im7ijnd.mongodb.net/?retryWrites=true&w=majority`
     
     `PORT=3008` 
     
